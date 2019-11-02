@@ -1,0 +1,71 @@
+@startuml
+start
+fork
+    partition 创建比赛 {
+        :添加比赛名称、介绍、开始时间和结束时间、
+        是否实时排名、是否可见、;
+        partition 设置比赛类型 {
+            if (比赛公开) then (yes)
+            else (no)
+                if (比赛可加入) then (yes)
+                    :设置密码;
+                else (no)
+                endif
+            endif
+        }
+        :添加比赛成员;
+        :添加题目;
+    }
+'    partition 比赛开始判定 {
+'        while (当前时间等于设置的比赛开始时间) is (no)
+'            if (是否强行开始比赛) then (yes)
+'            :设置比赛开始时间为当前时间;
+'            endif
+'        endWhile (yes)
+'    }
+'    :比赛开始;
+fork again
+    partition 修改比赛 {
+        if (比赛已经开始) then (yes)
+            :只修改结束时间;
+        else (no)
+            if (比赛已结束) then (no)
+                fork
+                    :修改比赛名称、介绍、实时排名、
+                    是否可见、结束时间、比赛类型;
+                fork again
+                    if (是否强行开始比赛) then (yes)
+                        :设置比赛开始时间为当前时间;
+                        :比赛开始;
+                    else (no)
+                    endif
+                end fork
+            else (yes)
+            endif
+        endif
+    }
+fork again
+    partition 进入比赛 {
+        fork
+            partition 提交题目 {
+                :提交题目;
+                note right
+                    管理员提交题目仅用来验证题目是否有
+                    问题管理员仅可以看到题目是否通过
+                end note
+            }
+        fork again
+            partition 查看榜单 {
+                if (比赛未开始) then (yes)
+                else (no)
+                    :显示榜单;
+                endif
+            }
+        end fork
+    }
+fork again
+
+end fork
+stop
+
+@enduml

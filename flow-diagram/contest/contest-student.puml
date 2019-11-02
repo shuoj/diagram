@@ -1,0 +1,84 @@
+@startuml
+start
+
+if (比赛可见) then (yes)
+else (no)
+    stop
+endif
+if (已经被邀请入比赛) then (yes)
+else (no)
+    if (比赛是公开赛) then (yes)
+    else (no)
+        if (比赛可加入) then (no)
+            stop
+        else (yes)
+            while (密码输入正确) is (no)
+            endWhile (yes)
+        endif
+    endif
+endif
+
+partition 进入比赛 {
+'    if (比赛已结束) then (yes)
+'        fork
+'        :查看排名;
+'        fork again
+'        :查看题目;
+'        fork again
+'        end fork
+'    else (no)
+'         while (比赛已开始) is (no)
+'         endWhile (yes)
+'             :加载题目;
+'             fork
+'                 if (比赛结束) then (no)
+'                     :提交题目;
+'                 else (yes)
+'                 endif
+'             fork again
+'                 partition 查看排名 {
+'                     if (距离比赛结束时间一小时之内) then (yes)
+'                         :排名封榜;
+'                     else (no)
+'                         :实时刷新榜单更新排名;
+'                     endif
+'                 }
+'             end fork
+'
+'    endif
+    fork
+        partition 查看题目 {
+            if (比赛未开始) then (yes)
+            else (no)
+                :加载题目;
+            endif
+        }
+    fork again
+        partition 提交题目 {
+            if (比赛进行中) then (yes)
+                :提交题目;
+                :更新题目列表状态;
+            else (no)
+            endif
+        }
+    fork again
+        partition 查看排名 {
+            if (比赛未开始) then (yes)
+            else (no)
+                if (比赛进行中) then (yes)
+                    if (距离比赛结束时间一小时之内) then (yes)
+                        :排名封榜;
+                    else (no)
+                       :实时刷新榜单更新排名;
+                    endif
+                else (no)
+                    :加载榜单;
+                endif
+            endif
+        }
+    end fork
+
+}
+
+stop
+@enduml
