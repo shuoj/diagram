@@ -15,6 +15,10 @@ fork
         }
         :添加比赛成员;
         :添加题目;
+        note right
+            题目在比赛结束前会变成不可见状态，
+            并且不可在题目列表删除该题目
+        end note
     }
 '    partition 比赛开始判定 {
 '        while (当前时间等于设置的比赛开始时间) is (no)
@@ -63,8 +67,6 @@ fork again
             }
         end fork
     }
-fork again
-
 end fork
 stop
 
