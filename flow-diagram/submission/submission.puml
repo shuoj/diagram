@@ -1,0 +1,40 @@
+@startuml
+start
+if (在比赛中提交题目) then (yes)
+    partition 比赛提交 {
+        if (提交用户是管理员) then (yes)
+        else (no)
+            :更新用户提交状态;
+            if (题目AC) then (yes)
+                if (一血) then (yes)
+                    :榜单更新深绿色通过块;
+                else (no)
+                    if (题目之前已经AC) then (yes)
+                    else (no)
+                        :榜单更新浅绿色通过块;
+                        :更新题目列表题目通过率;
+                    endif
+                endif
+            else (no)
+                if (题目之前已经AC) then (yes)
+                else (no)
+                    :榜单更新未通过红色块;
+                    :榜单更新该用户罚时;
+                    :更新题目列表题目通过率;
+                endif
+            endif
+        endif
+    }
+else (no)
+    partition 普通提交 {
+        :更新用户提交状态;
+        :更新题目列表题目通过率;
+    }
+endif
+stop
+@enduml
+
+
+'if () then (yes)
+'                        else (no)
+'                        endif

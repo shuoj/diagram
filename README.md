@@ -11,3 +11,7 @@
 #### Teacher
 
 ![contest_teacher](https://raw.githubusercontent.com/shuoj/diagram/master/assets/contest_teacher.png)
+
+### Submission
+
+![submission](https://raw.githubusercontent.com/shuoj/diagram/master/assets/submission.png)
