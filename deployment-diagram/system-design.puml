@@ -1,0 +1,45 @@
+@startuml system-design
+
+left to right direction
+
+agent mobile
+agent browser
+
+rectangle "Front-end" as fe
+
+
+mobile -- fe
+browser -- fe
+
+
+cloud "Back-end\n" as be {
+
+    rectangle "API Gateway"as gw
+
+    gw -[hidden]- zk
+
+    rectangle ZooKeeper as zk {
+        rectangle "service-0"
+        rectangle "service-1"
+        rectangle "service-2"
+        rectangle "kafka-broker-0"
+        rectangle "kafka-broker-1"
+        rectangle "kafka-broker-2"
+    }
+
+    rectangle "Database" as db {
+        rectangle MySQL
+        rectangle Redis
+    }
+
+    db -[hidden]- zk
+}
+
+fe -- gw
+
+
+
+
+
+
+@enduml

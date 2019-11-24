@@ -1,5 +1,8 @@
 # diagrams for shuoj
 
+## Deployment Diagrams
+![system_design](https://raw.githubusercontent.com/shuoj/diagram/master/assets/system_design.png)
+
 ## Flow Diagrams
 
 ### Contest
