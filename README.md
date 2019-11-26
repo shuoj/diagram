@@ -1,7 +1,12 @@
 # diagrams for shuoj
 
 ## Deployment Diagrams
+
 ![system_design](https://raw.githubusercontent.com/shuoj/diagram/master/assets/system_design.png)
+
+## Class Diagrams
+
+![class_diagram](https://raw.githubusercontent.com/shuoj/diagram/master/assets/class_diagram.png)
 
 ## Flow Diagrams
 
