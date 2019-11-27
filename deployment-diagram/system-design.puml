@@ -19,15 +19,15 @@ cloud "Back-end\n" as be {
     gw -[hidden]- zk
 
     rectangle ZooKeeper as zk {
-        rectangle "service-2"
-        rectangle "service-1"
-        rectangle "service-0"
-        rectangle "judge-server-2"
-        rectangle "judge-server-1"
-        rectangle "judge-server-0"
-        rectangle "kafka-broker-2"
-        rectangle "kafka-broker-1"
-        rectangle "kafka-broker-0"
+        rectangle "main-service-2"
+        rectangle "main-service-1"
+        rectangle "main-service-0"
+        rectangle "judge-server-2" <<Consumer>>
+        rectangle "judge-server-1" <<Consumer>>
+        rectangle "judge-server-0" <<Consumer>>
+        rectangle "statistics-services-2" <<Consumer>>
+        rectangle "statistics-services-1" <<Consumer>>
+        rectangle "statistics-services-0" <<Consumer>>
     }
 
     rectangle "Database" as db {

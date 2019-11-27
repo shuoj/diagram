@@ -1,0 +1,206 @@
+@startuml
+
+class OjApplication {
+
+  public static void main(String[] args)
+}
+
+interface AnnouncementService {
+
+  List<AnnouncementDTO> findAnnouncements(int page, int size)
+
+  AnnouncementDTO findAnnouncementById(String id);
+
+  AnnouncementDTO create(AnnouncementDTO announcementDTO);
+
+  AnnouncementDTO update(AnnouncementDTO announcementDTO);
+
+  AnnouncementDTO delete(String id);
+}
+
+interface AuthenticationService {
+
+  User register(UserDTO userDTO);
+
+  User forgotPassword(String password);
+
+  String login(String username, String password);
+
+  String refresh(String token);
+
+  void counter(AuthLogDTO authLogDTO);
+}
+
+interface ContestService {
+
+  ContestDTO create(ContestDTO contestDTO);
+
+  void delete(String id);
+
+  ContestDTO update(ContestDTO contestDTO);
+
+  ContestDTO partUpdate(ContestDTO contestDTO);
+
+  ContestDTO findById(String id);
+
+  List<RankingUserDTO> addUsersByGroups(List<String> groupIdList, String contestId);
+
+  List<RankingUserDTO> getUsers(String id);
+
+  List<RankingUserDTO> addUsers(List<String> userIdList, String contestId);
+
+  void deleteUsers(List<String> userIdList, String id);
+
+  PageDTO<ContestDTO> findCriteria(Integer page, Integer size, ContestQuery contestQuery);
+
+  List<ProblemDTO> addProblems(List<String> problemIdList, String contestId);
+
+  void addProblem(String problemId, String contestId, Integer score);
+
+  void deleteProblems(List<String> problemIdList, String contestId);
+
+  List<ProblemDTO> findAllProblems(String id);
+
+  ProblemDTO findOneProblem(String contestId, String problemId);
+
+  ContestDTO setContestStatus(String id, ContestOption option);
+
+  void joinContest(String id, String password);
+
+  RankingDTO getRanking(String id, RankingQuery query);
+
+  Workbook exportRanking(String id, RankingQuery query);
+}
+
+interface FileUploadService {
+
+  String uploadFile(MultipartFile file, HttpServletRequest request);
+
+  String saveFile(String tempPath, String relativeDirectory);
+}
+
+interface GroupService {
+
+  GroupDTO findById(String id) throws GroupException;
+
+  List<GroupDTO> findAllGroups() throws GroupException;
+
+  PageDTO<GroupDTO> findCriteria(GroupQuery groupQuery, Integer page, Integer size);
+
+  GroupDTO create(GroupDTO groupDTO) throws GroupException;
+
+  GroupDTO update(GroupDTO groupDTO) throws GroupException, AuthorizationException;
+
+  GroupDTO delete(String id) throws GroupException, AuthorizationException;
+
+  List<JwtUser> addMembers(String id, List<String> usersId) throws UserException, GroupException, AuthorizationException;
+
+  List<JwtUser> deleteMembers(String id, List<String> userId) throws GroupException, UserException, AuthorizationException;
+
+  Workbook resetMembersPassword(String id) throws GroupException;
+}
+
+interface MeService {
+
+  User update(User user) throws HaveSuchItemException;
+
+  User changePassword(ChangePasswordDTO changePasswordDTO) throws ValidateException;
+}
+
+interface ProblemService {
+
+  List<ProblemDTO> findProblemNoCriteria(Integer page, Integer size);
+
+  PageDTO<ProblemDTO> findProblemCriteria(Integer page, Integer size, ProblemQuery problemQuery);
+
+  ProblemDTO findProblemById(String id) throws ProblemException;
+
+  ProblemDTO findProblemByTitle(String title);
+
+  ProblemDTO create(ProblemDTO problemDTO) throws ProblemException;
+
+  ProblemDTO update(ProblemDTO problemDTO) throws ProblemException;
+
+  ProblemDTO delete(String id) throws ProblemException;
+}
+
+interface RecommendService {
+    List<ProblemDTO> recommend(RecommendOptionDTO recommendOptionDTO);
+}
+
+interface SecurityQuestionService {
+
+  SecurityQuestionDTO getOne(String username) throws NoSuchItemException;
+
+  List<SecurityQuestionDTO> getAll();
+
+  Boolean deleteAll() throws NoSuchItemException;
+
+  Boolean saveAnswer(List<SecurityQuestionDTO> securityQuestionDTOList)
+      throws SecurityQuestionException;
+
+  Boolean checkAnswer(SecurityQuestionDTO securityQuestionDTO, String username)
+      throws NoSuchItemException, NoSuchAlgorithmException;
+}
+
+interface SubmissionService {
+
+  SubmissionDTO findById(String id) throws SubmissionException, ContestException;
+
+    PageDTO<SubmissionDTO> findByContest(String id, Integer page, Integer size)
+      throws ContestException;
+
+  PageDTO<SubmissionDTO> findByUser(Integer page, Integer size, Boolean isPractice);
+
+    List<SubmissionDTO> findByPracticeProblem(String problemId) throws ProblemException;
+
+    List<SubmissionDTO> findByContestProblem(String contestId, String problemId) throws ProblemException, ContestException;
+
+  SubmissionDTO createContestSubmission(SubmissionDTO submissionDTO)
+      throws ContestException, ProblemException, SubmissionException;
+
+  SubmissionDTO createPracticeSubmission(SubmissionDTO submissionDTO)
+      throws ProblemException, SubmissionException;
+
+  SubmissionDTO rejudgeSubmission(String id, Result result) throws SubmissionException;
+
+  PageDTO<SubmissionDTO> findAll(Integer page, Integer size, SubmissionQuery submissionQuery)
+      throws ProblemException, UserException;
+
+  void counter(SubmissionDTO submissionDTO) throws ProblemException, UserException;
+}
+
+interface UserService {
+
+  PageDTO<JwtUser> getUserRanking(Integer page, Integer size);
+
+  PageDTO<JwtUser> getAllUsers(Integer page, Integer size, UserQuery userQuery);
+
+  JwtUser getOne(String id) throws UserException;
+
+  JwtUser create(UserDTO userDTO) throws UserException;
+
+  JwtUser update(UserDTO userDTO) throws UserException;
+
+  void delete(List<String> id) throws UserException;
+
+  PageDTO<JwtUser> generateUser(String groupId, Long quantity) throws GroupException;
+
+  PageDTO<JwtUser> generateUser(String groupId, File excel) throws GroupException, FileException;
+
+}
+
+OjApplication -- UserService
+OjApplication -- ContestService
+OjApplication -- AnnouncementService
+OjApplication -- AuthenticationService
+OjApplication -- FileUploadService
+OjApplication -- GroupService
+OjApplication -- MeService
+OjApplication -- ProblemService
+OjApplication -- RecommendService
+OjApplication -- SecurityQuestionService
+OjApplication -- SubmissionService
+
+
+@enduml
