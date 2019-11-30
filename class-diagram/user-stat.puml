@@ -1,0 +1,188 @@
+@startuml
+
+class User {
+
+  private String id;
+
+  private String username;
+
+  private String password;
+
+  private String studentNumber;
+
+  private String firstname;
+
+  private String lastname;
+
+  private String name;
+
+  private String email;
+
+  private String school;
+
+  private String signature;
+
+  private Long acCount = 0L;
+
+  private Long submitCount = 0L;
+
+  private Double acRate = 0.0;
+
+  private Boolean enabled = true;
+
+  private Date lastPasswordResetDate;
+
+  private List<Authority> authorities;
+
+  private List<Problem> problemList;
+
+  private List<VirtualProblem> virtualProblemList;
+
+  private List<Contest> contestList;
+
+  private List<RankingUser> rankingUserList;
+
+  private List<Announcement> announcementList;
+
+  private List<Group> createGroupList;
+
+  private List<AuthLog> authLogList;
+
+  private List<Clarification> clarificationList;
+
+  private List<Group> groupList;
+
+  private List<Contest> contestListExcluded;
+
+  private List<UserSecurityQuestion> userSecurityQuestionList;
+
+  private Long referUserId;
+
+  private Boolean temporary = false;
+
+  public boolean isAdmin()
+
+  public boolean isAdminOrStuff()
+
+  public void setPassword(String password)
+
+  public void setMd5Password(String password)
+}
+
+class AuthLog {
+
+  private String id;
+
+  private User user;
+
+  private LocalDateTime timestamp;
+}
+
+class Problem {
+
+  private String id;
+
+  private Long idx;
+
+  private User author;
+
+  private String title;
+
+  private String description;
+
+  private Integer timeLimit;
+
+  private Integer ramLimit;
+
+  private Difficulty difficulty;
+
+  private Double degreeOfDifficulty;
+
+  private Boolean visible = true;
+
+  private Set<Tag> tagList;
+
+  private String inputDesc;
+
+  private String outputDesc;
+
+  private String sampleIO;
+
+  private List<ContestProblem> contestProblemList;
+
+  private List<Submission> submissionList;
+
+  private Boolean specialJudged = false;
+
+  private String testData;
+
+  private String hint = "";
+
+  private String source = "";
+
+  private Integer averageAcceptTime = 0;
+
+  private Integer acceptCount = 0;
+
+  private Integer submitCount = 0;
+
+  private Double acceptRate = 0.0;
+
+  private LocalDateTime createDate;
+
+  private LocalDateTime lastUsedDate;
+
+  private LocalDateTime modifiedDate;
+
+  private Integer testCaseCount = 0;
+}
+
+class UserProblemStat {
+
+  private String id;
+
+  private User user;
+
+  private Problem problem;
+
+  private LocalDateTime lastSubmitDate;
+
+  private Boolean passed;
+
+  private Integer score;
+
+  private Integer errorTimes;
+}
+
+class Tag {
+
+  private String id;
+
+  private String name;
+
+  private Long problemCount;
+
+  private List<Problem> problemList;
+}
+
+class UserTagStat {
+
+  private String id;
+
+  private User user;
+
+  private Tag tag;
+
+  private LocalDateTime lastSubmitDate;
+
+  private Integer score;
+
+  private Integer errorTimes;
+}
+
+User "1"--"many" AuthLog : generate
+User "1"--"many" UserTagStat : generate
+Tag "1"--"many" UserTagStat : has
+User "1"--"many" UserProblemStat : generate
+Problem "1"--"many" UserProblemStat : has 
+@enduml
