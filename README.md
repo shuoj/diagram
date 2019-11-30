@@ -14,6 +14,9 @@
 ### Problem
 ![problem_class_diagram](https://raw.githubusercontent.com/shuoj/diagram/master/assets/problem_class_diagram.png)
 
+### User Stat
+![user_stat_class_diagram](https://raw.githubusercontent.com/shuoj/diagram/master/assets/user_stat_class_diagram.png)
+
 ## Flow Diagrams
 
 ### Contest
