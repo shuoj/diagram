@@ -1,18 +1,5 @@
 @startuml
 
-class Announcement {
-
-  private String id;
-
-  private User author;
-
-  private String title;
-
-  private String content;
-
-  private LocalDateTime modifiedDate;
-}
-
 class Clarification {
 
   private String id;
@@ -122,23 +109,6 @@ class ContestProblem {
   public void increaseSubmitCount()
 
   public void computeAcceptRate()
-}
-
-class Group {
-
-  private String id;
-
-  private Long idx;
-
-  private String name;
-
-  private User author;
-
-  private Set<User> userSet;
-
-  private LocalDateTime createDate;
-
-  private Boolean userGenerated = false;
 }
 
 class Problem {
@@ -292,48 +262,6 @@ class Submission {
   public String getProblemId()
 }
 
-class Tag {
-
-  private String id;
-
-  private String name;
-
-  private Long problemCount;
-
-  private List<Problem> problemList;
-}
-
-class TimeCost {
-
-  private String id = UUID.randomUUID().toString();
-
-  private ContestProblem contestProblem;
-
-  private Long totalTime = 0L;
-
-  private Integer errorCount = 0;
-
-  private Boolean submitted = false;
-
-  private Boolean passed = false;
-
-  private Boolean firstPassed = false;
-
-  private Double score = 0.0;
-
-  private RankingUser rankingUser;
-
-  public void addTotalTime(Long milliseconds)
-
-  public void minusTotalTime(Long milliseconds)
-
-  public void increaseErrorCount()
-
-  public void decreaseErrorCount()
-
-  public void addScore(Double score)
-}
-
 class User {
 
   private String id;
@@ -386,8 +314,6 @@ class User {
 
   private List<Group> groupList;
 
-  private List<Contest> contestListExcluded;
-
   private List<UserSecurityQuestion> userSecurityQuestionList;
 
   private Long referUserId;
@@ -403,187 +329,52 @@ class User {
   public void setMd5Password(String password)
 }
 
-class UserSecurityQuestion {
+class TimeCost {
 
   private String id;
 
-  private User user;
+  private ContestProblem contestProblem;
 
-  private SecurityQuestion securityQuestion;
+  private Long totalTime = 0L;
 
-  private String answer;
+  private Integer errorCount = 0;
+
+  private Boolean submitted = false;
+
+  private Boolean passed = false;
+
+  private Boolean firstPassed = false;
+
+  private Double score = 0.0;
+
+  private RankingUser rankingUser;
+
+  public void addTotalTime(Long milliseconds)
+
+  public void minusTotalTime(Long milliseconds)
+
+  public void increaseErrorCount()
+
+  public void decreaseErrorCount()
+
+  public void addScore(Double score)
 }
 
-class VirtualProblem extends Problem {
+User "1"--"many" Contest : create
+User "1"--"many" Problem : create
 
-  private String id;
+Contest "1"--"many" RankingUser : contains
+User "1"--"many" RankingUser : join
+RankingUser "1"--"many" TimeCost : contains
 
-  private User author;
+Contest "1"--"many" ContestProblem : contains
+Problem "1"--"many" ContestProblem : used
+ContestProblem "1"--"many" TimeCost : contains
 
-  private String sourcePage;
-}
-
-enum ContestType {
-  ICPC, OI
-}
-
-enum Difficulty {
-  LOW,
-  MEDIUM,
-  HIGH
-}
-
-enum JudgeType {
-  IMMEDIATELY,
-  DELAY
-}
-
-enum ContestStatus {
-  NOT_STARTED,
-  PROCESSING,
-  ENDED
-}
-
-enum Language {
-  C,
-  CPP,
-  JAVA,
-  PYTHON2,
-  PYTHON3
-}
-
-enum OpenType {
-  PUBLIC,
-  SECRET_WITH_PASSWORD,
-  SECRET_WITHOUT_PASSWORD
-}
-
-enum Result {
-  ACCEPTED,
-  RUNTIME_ERROR,
-  CPU_TIME_LIMIT_EXCEEDED,
-  TIME_LIMIT_EXCEEDED,
-  MEMORY_LIMIT_EXCEEDED,
-  COMPILE_ERROR,
-  WRONG_ANSWER,
-  SYSTEM_ERROR,
-  WAITING,
-  JUDGE_CLIENT_ERROR;
-
-  public static boolean isUserError(Result result)
-}
-
-class AuthLog {
-
-  private String id;
-
-  private User user;
-
-  private LocalDateTime timestamp;
-}
-
-class Authority {
-
-  private Long id;
-
-  private AuthorityName name;
-
-  private List<User> userList;
-}
-
-enum AuthorityName {
-  ROLE_USER,
-  ROLE_STUFF,
-  ROLE_ADMIN
-}
-
-class SecurityQuestion {
-
-  private String id;
-
-  private List<UserSecurityQuestion> userSecurityQuestionList;
-
-  private String question;
-}
-
-class UserProblemStat {
-
-  private String id;
-
-  private User user;
-
-  private Problem problem;
-
-  private LocalDateTime lastSubmitDate;
-
-  private Boolean passed;
-
-  private Integer score;
-
-  private Integer errorTimes;
-}
-
-class UserTagStat {
-
-  private String id;
-
-  private User user;
-
-  private Tag tag;
-
-  private LocalDateTime lastSubmitDate;
-
-  private Integer score;
-
-  private Integer errorTimes;
-}
-
-User "1" *-- "many" Announcement : create
-User "1" *-- "many" Problem : create
-User "1" *-- "many" VirtualProblem : create
-User "1" *-- "many" Contest : create
-User "many" *--* "many" RankingUser : join
-User "1" *-- "many" Clarification : create
-User "1" *-- "many" Group : create
-User "many" *-- "many" Group : join
-User "1" *-- "many" Submission : create
-User "1" *-- "many" UserSecurityQuestion : create
-User "1" *-- "many" AuthLog : generate
-User "1" *-- "many" UserProblemStat : generate
-User "1" *-- "many" UserTagStat : generate
-User "1" *-- "many" Authority: being
-
-Authority "1" -- "1" AuthorityName : has
-
-SecurityQuestion "1" *-- "many" UserSecurityQuestion : has
-
-' contest-user
-RankingUser "1" *-- "many" TimeCost : has
-
-Contest "1" *-- "many" RankingUser : has
-Contest "1" *-- "many" ContestProblem : has
-Contest "1" *-- "many" Submission : has
-Contest "1" *-- "many" Clarification : has
-Contest "1" -- "1" OpenType : being
-Contest "1" -- "1" JudgeType: being
-Contest "1" -- "1" ContestType: being
-Contest "1" -- "1" ContestStatus: being
-
-' contest-problem
-ContestProblem "1" *-- "many" TimeCost : has
-
-Problem "1" *-- "many" Submission : has
-Problem "1" -- "1" Difficulty : being
-Problem "many" *--* "many" Tag : has
-Problem "1" *-- "many" ContestProblem : has
-Problem "1" *-- "many" UserProblemStat : has
-
-Submission "1" -- "1" Result : being
-Submission "1" -- "1" Language : being
-
-Tag "1" *-- "many" UserTagStat : has
-
-
-
+Contest "1"--"many" Clarification : contains
+Contest "1"--"many" Submission : contains
+Problem "1"--"many" Submission : has
+User "1"--"many" Submission : create
+User "1"--"many" Clarification : create
 
 @enduml

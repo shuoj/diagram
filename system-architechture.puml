@@ -190,17 +190,17 @@ interface UserService {
 
 }
 
-OjApplication -- UserService
-OjApplication -- ContestService
-OjApplication -- AnnouncementService
-OjApplication -- AuthenticationService
-OjApplication -- FileUploadService
-OjApplication -- GroupService
-OjApplication -- MeService
-OjApplication -- ProblemService
-OjApplication -- RecommendService
-OjApplication -- SecurityQuestionService
-OjApplication -- SubmissionService
+OjApplication -right- UserService
+OjApplication -right- ContestService
+OjApplication -right- AnnouncementService
+OjApplication -right- AuthenticationService
+OjApplication -right- FileUploadService
+OjApplication -right- GroupService
+OjApplication -right- MeService
+OjApplication -right- ProblemService
+OjApplication -right- RecommendService
+OjApplication -right- SecurityQuestionService
+OjApplication -right- SubmissionService
 
 
 @enduml
