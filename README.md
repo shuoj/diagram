@@ -8,6 +8,12 @@
 
 ![class_diagram](https://raw.githubusercontent.com/shuoj/diagram/master/assets/class_diagram.png)
 
+### Contest
+![contest_class_diagram](https://raw.githubusercontent.com/shuoj/diagram/master/assets/contest_class_diagram.png)
+
+### Problem
+![problem_class_diagram](https://raw.githubusercontent.com/shuoj/diagram/master/assets/problem_class_diagram.png)
+
 ## Flow Diagrams
 
 ### Contest
