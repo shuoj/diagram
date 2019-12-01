@@ -4,6 +4,10 @@
 
 ![system_design](https://raw.githubusercontent.com/shuoj/diagram/master/assets/system_design.png)
 
+## App Architecture
+
+![app_architecture](https://raw.githubusercontent.com/shuoj/diagram/master/assets/app_architecture.png)
+
 ## Class Diagrams
 
 ![class_diagram](https://raw.githubusercontent.com/shuoj/diagram/master/assets/class_diagram.png)
