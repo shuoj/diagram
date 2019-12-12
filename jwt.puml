@@ -1,0 +1,11 @@
+@startuml
+User -> "Resource Server": 1. Request Access.
+"Resource Server" -> User: 2. Not Authentication.
+User -> "Auth Server": 3. Authenticates with Auth Server.
+"Auth Server" -> "Auth Server": 4. Generate \n JSON Web Token.
+"Auth Server" -> User: 5. Authentication Successful, Grant Token.
+User -> "Resource Server": 6. Request with Token.
+"Resource Server" -> "Resource Server": 7. Validate Token.
+"Resource Server" -> User: 8. Return Resource.
+
+@enduml

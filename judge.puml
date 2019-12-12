@@ -1,0 +1,16 @@
+@startuml
+Client -> "Main Service": Submit Submission.
+"Main Service" -> "Judge Service": Deliver Message<<b>Submission</b>>
+"Main Service" -> Client: return Result<<b>WAITING</b>>
+... ...
+Client -> "Main Service": Check Result.
+"Main Service" -> Client: return Result<<b>WAITING</b>>
+... ...
+"Judge Service" -> "Judge Service": Consume: Judge Submission.
+"Judge Service" -> "Main Service": Deliver Message<<b>Result</b>>
+"Main Service" -> "Main Service": Consume: Persist Result.
+... ...
+Client -> "Main Service": Check Result.
+"Main Service" -> Client: return Result<<b>ACCEPTED</b>>
+
+@enduml

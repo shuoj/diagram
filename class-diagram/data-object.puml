@@ -1,0 +1,55 @@
+@startuml
+
+class TimeCost {
+
+   private String id;
+
+   private ContestProblem contestProblem;
+
+   private RankingUser rankingUser;
+
+   private Long totalTime = 0L;
+
+   private Integer errorCount = 0;
+
+   private Boolean submitted = false;
+
+   private Boolean passed = false;
+
+   private Boolean firstPassed = false;
+
+   private Double score = 0D;
+
+}
+
+class TimeCostDTO {
+
+   private String id;
+
+   private String  contestId;
+
+   private String contestName;
+
+   private String problemId;
+
+   private String problemName;
+
+   private String userId;
+
+   private String username;
+
+   private Long totalTime = 0L;
+
+   private Integer errorCount = 0;
+
+   private Boolean submitted = false;
+
+   private Boolean passed = false;
+
+   private Boolean firstPassed = false;
+
+   private Double score = 0D;
+}
+
+
+@enduml

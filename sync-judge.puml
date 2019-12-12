@@ -1,0 +1,11 @@
+@startuml
+Client -> "Main Service": Submit Submission.
+activate "Main Service"
+"Main Service" -> "Judge Service": Judge Request.
+activate "Judge Service"
+"Judge Service" -> "Judge Service": Judge Submission.
+"Judge Service" -> "Main Service": Return Judge Result
+deactivate "Judge Service"
+"Main Service" -> Client: return Result<<b>ACCEPTED</b>>
+deactivate "Main Service"
+@enduml

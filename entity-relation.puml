@@ -1,583 +1,156 @@
 @startuml
+entity "User" as e01 {
+  *id : varchar <<PK>>
+}
 
-entity Announcement {
-
-  *id: String
+entity "Contest" as e02 {
+  *id : varchar <<PK>>
   --
-  author: User
+  *author_id : varchar <<FK>>
 }
 
-entity Clarification {
-
-  private String id;
-
-  private User author;
-
-  private Contest contest;
-
-  private String question;
-
-  private String answer;
-
-  private LocalDateTime createDate;
-
-  private Boolean isPublic;
-
-  private Boolean isRead;
+entity "Clarification" as e03 {
+  *id : varchar <<PK>>
+  --
+  *author_id : varchar <<FK>>
+  --
+  *contest_id : varchar <<FK>>
 }
 
-entity Contest {
-
-  private String id;
-
-  private Long idx;
-
-  private User author;
-
-  private String name;
-
-  private String description;
-
-  private String password;
-
-  private OpenType openType = OpenType.PUBLIC;
-
-  private ContestType contestType = ContestType.ICPC;
-
-  private JudgeType judgeType = JudgeType.IMMEDIATELY;
-
-  private Boolean realTimeRank = true;
-
-  private LocalDateTime startDate;
-
-  private LocalDateTime endDate;
-
-  private LocalDateTime createDate;
-
-  private List<Submission> submissionList;
-
-  private Set<ContestProblem> contestProblemSet;
-
-  private List<Clarification> clarificationList;
-
-  private Set<RankingUser> rankingUserList;
-
-  private Long frozenOffset = 4 * 60 * 60 * 1000L;
-
-  private Boolean frozen = false;
-
-  private Boolean enable = false;
-
-  private Boolean visible = false;
-
-  private ContestStatus status = ContestStatus.NOT_STARTED;
-
-  private Boolean sharable = true;
-
-  public void setPassword(String password);
-
-  public boolean isRankingFrozen();
-
-  public boolean isICPC();
-
-  public boolean isOI();
+entity "Tag" as e04 {
+  *id : varchar <<PK>>
 }
 
-entity ContestProblem {
-
-  private String id;
-
-  private Contest contest;
-
-  private Problem problem;
-
-  private String label;
-
-  private Integer acceptCount = 0;
-
-  private Integer submitCount = 0;
-
-  private Double acceptRate = 0.0;
-
-  private Integer score = 0;
-
-  private List<TimeCost> timeList;
-
-  private Submission firstSubmission;
-
-  public String getContestId()
-
-  public String getProblemId()
-
-  public void increaseAcceptCount()
-
-  public void decreaseAcceptCount()
-
-  public void increaseSubmitCount()
-
-  public void computeAcceptRate()
+entity "Problem" as e05 {
+  *id : varchar <<PK>>
+  --
+  *author_id : varchar <<FK>>
+}
+entity "ProblemTagList" as e06 {
+  *id : varchar <<PK>>
+  --
+  *tag_id : varchar <<FK>>
+  --
+  *problem_id: varchar <<FK>>
 }
 
-entity Group {
-
-  private String id;
-
-  private Long idx;
-
-  private String name;
-
-  private User author;
-
-  private Set<User> userSet;
-
-  private LocalDateTime createDate;
-
-  private Boolean userGenerated = false;
+entity "ContestProblem" as e07 {
+  *id : varchar <<PK>>
+  --
+  *contest_id : varchar <<FK>>
+  --
+  *problem_id : varchar <<FK>>
+  --
+  *first_submission_id : varchar <<FK>>
 }
 
-entity Problem {
-
-  private String id;
-
-  private Long idx;
-
-  private User author;
-
-  private String title;
-
-  private String description;
-
-  private Integer timeLimit;
-
-  private Integer ramLimit;
-
-  private Difficulty difficulty;
-
-  private Double degreeOfDifficulty;
-
-  private Boolean visible = true;
-
-  private Set<Tag> tagList;
-
-  private String inputDesc;
-
-  private String outputDesc;
-
-  private String sampleIO;
-
-  private List<ContestProblem> contestProblemList;
-
-  private List<Submission> submissionList;
-
-  private Boolean specialJudged = false;
-
-  private String testData;
-
-  private String hint = "";
-
-  private String source = "";
-
-  private Integer averageAcceptTime = 0;
-
-  private Integer acceptCount = 0;
-
-  private Integer submitCount = 0;
-
-  private Double acceptRate = 0.0;
-
-  private LocalDateTime createDate;
-
-  private LocalDateTime lastUsedDate;
-
-  private LocalDateTime modifiedDate;
-
-  private Integer testCaseCount = 0;
+entity "Group" as e08 {
+  *id : varchar <<PK>>
 }
 
-entity RankingUser {
-
-  private String id;
-
-  private User user;
-
-  private Contest contest;
-
-  private Integer passedCount = 0;
-
-  private Integer acceptCount = 0;
-
-  private Integer submitCount = 0;
-
-  private Integer errorCount = 0;
-
-  private Double score = 0.0;
-
-  private Long time = 0L;
-
-  private List<TimeCost> timeList;
-
-  private Boolean ranked = true;
-
-  private Integer rankingNumber;
-
-  private String teacherId;
-
-  private String groupId;
-
-  public void increasePassedCount()
-
-  public void increaseAcceptCount()
-
-  public void decreaseAcceptCount()
-
-  public void decreaseSubmitCount()
-
-  public void increaseSubmitCount()
-
-  public void increaseErrorCount()
-
-  public void addTime(Long milliseconds)
-
-  public void minusTime(Long milliseconds)
-
-  public void addScore(Double score)
-
-  public void minusScore(Double score)
+entity "UserTagStat" as e09 {
+  *id : varchar <<PK>>
+  --
+  *user_id : varchar <<FK>>
+  --
+  *tag_id : varchar <<FK>>
 }
 
-entity Submission {
-
-  private String id;
-
-  private Long idx;
-
-  private User author;
-
-  private Problem problem;
-
-  private String code;
-
-  private Contest contest;
-
-  private Boolean isPractice;
-
-  private LocalDateTime createDate;
-
-  private Language language;
-
-  private Integer memory;
-
-  private Integer length;
-
-  private Integer duration;
-
-  private Boolean isBeforeFrozen;
-
-  private Boolean shared;
-
-  private Result result;
-
-  private String resultDetail;
-
-  public String getAuthorId()
-
-  public String getContestId()
-
-  public String getProblemId()
+entity "AuthLog" as e10 {
+  *id : varchar <<PK>>
+  --
+  *user_id : varchar <<FK>>
 }
 
-entity Tag {
-
-  private String id;
-
-  private String name;
-
-  private Long problemCount;
-
-  private List<Problem> problemList;
+entity "Authority" as e11 {
+  *id : varchar <<PK>>
+}
+entity "UserAuthorities" as e12 {
+  *id : varchar <<PK>>
+  --
+  *user_id : varchar <<FK>>
+  --
+  *authority_id : varchar <<FK>>
+}
+entity "Announcement" as e13 {
+  *id : varchar <<PK>>
+  --
+  *user_id : varchar <<FK>>
+}
+entity "SecurityQuestion" as e14 {
+  *id : varchar <<PK>>
+}
+entity "UserSecurityQuestion" as e15 {
+  *id : varchar <<PK>>
+  --
+  *user_id : varchar <<FK>>
+  --
+  *security_question_id : varchar <<FK>>
+}
+entity "UserProblemStat" as e16 {
+  *id : varchar <<PK>>
+  --
+  *user_id : varchar <<FK>>
+  --
+  *problem_id : varchar <<FK>>
+}
+entity "Submission" as e17 {
+  *id : varchar <<PK>>
+  --
+  *user_id : varchar <<FK>>
+  --
+  *problem_id : varchar <<FK>>
+  --
+  *contest_id : varchar <<FK>>
+}
+entity "RankingUser" as e18 {
+  *id : varchar <<PK>>
+  --
+  *user_id : varchar <<FK>>
+  --
+  *contest_id : varchar <<FK>>
+}
+entity "Timecost" as e19 {
+  *id : varchar <<PK>>
+  --
+  *ranking_user_id : varchar <<FK>>
+  --
+  *contest_problem_id : varchar <<FK>>
+}
+entity "UserGroupList" as e20 {
+  *id : varchar <<PK>>
+  --
+  *user_id : varchar <<FK>>
+  --
+  *group_id : varchar <<FK>>
 }
 
-entity TimeCost {
-
-  private String id = UUID.randomUUID().toString();
-
-  private ContestProblem contestProblem;
-
-  private Long totalTime = 0L;
-
-  private Integer errorCount = 0;
-
-  private Boolean submitted = false;
-
-  private Boolean passed = false;
-
-  private Boolean firstPassed = false;
-
-  private Double score = 0.0;
-
-  private RankingUser rankingUser;
-
-  public void addTotalTime(Long milliseconds)
-
-  public void minusTotalTime(Long milliseconds)
-
-  public void increaseErrorCount()
-
-  public void decreaseErrorCount()
-
-  public void addScore(Double score)
-}
-
-entity User {
-
-  private String id;
-
-  private String username;
-
-  private String password;
-
-  private String studentNumber;
-
-  private String firstname;
-
-  private String lastname;
-
-  private String name;
-
-  private String email;
-
-  private String school;
-
-  private String signature;
-
-  private Long acCount = 0L;
-
-  private Long submitCount = 0L;
-
-  private Double acRate = 0.0;
-
-  private Boolean enabled = true;
-
-  private Date lastPasswordResetDate;
-
-  private List<Authority> authorities;
-
-  private List<Problem> problemList;
-
-  private List<VirtualProblem> virtualProblemList;
-
-  private List<Contest> contestList;
-
-  private List<RankingUser> rankingUserList;
-
-  private List<Announcement> announcementList;
-
-  private List<Group> createGroupList;
-
-  private List<AuthLog> authLogList;
-
-  private List<Clarification> clarificationList;
-
-  private List<Group> groupList;
-
-  private List<Contest> contestListExcluded;
-
-  private List<UserSecurityQuestion> userSecurityQuestionList;
-
-  private Long referUserId;
-
-  private Boolean temporary = false;
-
-  public boolean isAdmin()
-
-  public boolean isAdminOrStuff()
-
-  public void setPassword(String password)
-
-  public void setMd5Password(String password)
-}
-
-entity UserSecurityQuestion {
-
-  private String id;
-
-  private User user;
-
-  private SecurityQuestion securityQuestion;
-
-  private String answer;
-}
-
-entity VirtualProblem extends Problem {
-
-  private String id;
-
-  private User author;
-
-  private String sourcePage;
-}
-
-enum ContestType {
-  ICPC, OI
-}
-
-enum Difficulty {
-  LOW,
-  MEDIUM,
-  HIGH
-}
-
-enum JudgeType {
-  IMMEDIATELY,
-  DELAY
-}
-
-enum ContestStatus {
-  NOT_STARTED,
-  PROCESSING,
-  ENDED
-}
-
-enum Language {
-  C,
-  CPP,
-  JAVA,
-  PYTHON2,
-  PYTHON3
-}
-
-enum OpenType {
-  PUBLIC,
-  SECRET_WITH_PASSWORD,
-  SECRET_WITHOUT_PASSWORD
-}
-
-enum Result {
-  ACCEPTED,
-  RUNTIME_ERROR,
-  CPU_TIME_LIMIT_EXCEEDED,
-  TIME_LIMIT_EXCEEDED,
-  MEMORY_LIMIT_EXCEEDED,
-  COMPILE_ERROR,
-  WRONG_ANSWER,
-  SYSTEM_ERROR,
-  WAITING,
-  JUDGE_CLIENT_ERROR;
-
-  public static boolean isUserError(Result result)
-}
-
-entity AuthLog {
-
-  private String id;
-
-  private User user;
-
-  private LocalDateTime timestamp;
-}
-
-entity Authority {
-
-  private Long id;
-
-  private AuthorityName name;
-
-  private List<User> userList;
-}
-
-enum AuthorityName {
-  ROLE_USER,
-  ROLE_STUFF,
-  ROLE_ADMIN
-}
-
-entity SecurityQuestion {
-
-  private String id;
-
-  private List<UserSecurityQuestion> userSecurityQuestionList;
-
-  private String question;
-}
-
-entity UserProblemStat {
-
-  private String id;
-
-  private User user;
-
-  private Problem problem;
-
-  private LocalDateTime lastSubmitDate;
-
-  private Boolean passed;
-
-  private Integer score;
-
-  private Integer errorTimes;
-}
-
-entity UserTagStat {
-
-  private String id;
-
-  private User user;
-
-  private Tag tag;
-
-  private LocalDateTime lastSubmitDate;
-
-  private Integer score;
-
-  private Integer errorTimes;
-}
-
-User "1" *-- "many" Announcement : create
-User "1" *-- "many" Problem : create
-User "1" *-- "many" VirtualProblem : create
-User "1" *-- "many" Contest : create
-User "many" *--* "many" RankingUser : join
-User "1" *-- "many" Clarification : create
-User "1" *-- "many" Group : create
-User "many" *-- "many" Group : join
-User "1" *-- "many" Submission : create
-User "1" *-- "many" UserSecurityQuestion : create
-User "1" *-- "many" AuthLog : generate
-User "1" *-- "many" UserProblemStat : generate
-User "1" *-- "many" UserTagStat : generate
-User "1" *-- "many" Authority: being
-
-Authority "1" -- "1" AuthorityName : has
-
-SecurityQuestion "1" *-- "many" UserSecurityQuestion : has
-
-' contest-user
-RankingUser "1" *-- "many" TimeCost : has
-
-Contest "1" *-- "many" RankingUser : has
-Contest "1" *-- "many" ContestProblem : has
-Contest "1" *-- "many" Submission : has
-Contest "1" *-- "many" Clarification : has
-Contest "1" -- "1" OpenType : being
-Contest "1" -- "1" JudgeType: being
-Contest "1" -- "1" ContestType: being
-Contest "1" -- "1" ContestStatus: being
-
-' contest-problem
-ContestProblem "1" *-- "many" TimeCost : has
-
-Problem "1" *-- "many" Submission : has
-Problem "1" -- "1" Difficulty : being
-Problem "many" *--* "many" Tag : has
-Problem "1" *-- "many" ContestProblem : has
-Problem "1" *-- "many" UserProblemStat : has
-
-Submission "1" -- "1" Result : being
-Submission "1" -- "1" Language : being
-
-Tag "1" *-- "many" UserTagStat : has
-
-
-
-
+e01 |o--o{ e02
+e01 |o--o{ e10
+e01 |o--o{ e20
+e08 |o--o{ e20
+e01 |o--o{ e05
+e01 ||--o{ e03
+e02 ||--o{ e03
+e04 |o--o{ e06
+e05 |o--o{ e06
+e01 |o--o{ e09
+e04 |o--o{ e09
+e01 |o--o{ e12
+e11 |o--o{ e12
+e01 |o--o{ e13
+e01 }o--o{ e15
+e14 |o--o{ e15
+e01 |o--o{ e16
+e05 |o--o{ e16
+e02 |o--o{ e17
+e01 |o--o{ e17
+e05 |o--o{ e17
+e05 |o--o{ e07
+e02 |o--o{ e07
+e07 |o--o| e17
+e02 |o--o{ e18
+e01 |o--o{ e18
+e18 |o--o{ e19
+e07 |o--o{ e19
 @enduml
